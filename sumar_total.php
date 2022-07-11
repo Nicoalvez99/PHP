@@ -9,7 +9,7 @@ $aProductos[] = array("nombre" => "Smart TV 45\" 4K UHD",
     "marca" => "Hitachi",
     "modelo" => "554KS220",
     "stock" => 60,
-    "precio" => 8000
+    "precio" => 20000
 );
 
 $aProductos[] = array("nombre" => "Samsung Galaxy A30 Blanco",
@@ -26,7 +26,8 @@ $aProductos[] = array("nombre" => "Aire acondicionado Split Inverter Frio/calor 
     "precio" => 45000
 );
 
-
+//print_r($aProductos);
+//exit;
 
 ?>
 
@@ -61,7 +62,7 @@ $aProductos[] = array("nombre" => "Aire acondicionado Split Inverter Frio/calor 
                         <?php 
                             $precio = 0;
                             for ($contador = 0; $contador < count($aProductos); $contador++) {
-                                $precio =+ $aProductos[$contador]["precio"];
+                                $precio += $aProductos[$contador]["precio"];
                         ?>
                         <tr>
                             <td><?php echo $aProductos[$contador]["nombre"];?></td>
