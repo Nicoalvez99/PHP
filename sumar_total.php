@@ -59,8 +59,10 @@ $aProductos[] = array("nombre" => "Aire acondicionado Split Inverter Frio/calor 
                     </thead>
                     <tbody>
                         <?php 
-                            
-                            for ($contador = 0; $contador < count($aProductos); $contador++) { ?>
+                            $precio = 0;
+                            for ($contador = 0; $contador < count($aProductos); $contador++) {
+                                $precio =+ $aProductos[$contador]["precio"];
+                        ?>
                         <tr>
                             <td><?php echo $aProductos[$contador]["nombre"];?></td>
                             <td><?php echo $aProductos[$contador]["marca"];?></td>
@@ -74,6 +76,10 @@ $aProductos[] = array("nombre" => "Aire acondicionado Split Inverter Frio/calor 
                          } ?>
                     </tbody>
                 </table>
+               <?php 
+                echo "el sub total es: $precio";
+               
+               ?>
             </div>
         </div>
 </main>
