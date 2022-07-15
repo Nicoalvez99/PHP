@@ -67,6 +67,16 @@ $aEmpleados[] = array("dni" => "75744545",
                         <?php } ?>
                     </tbody>
                 </table>
+                <?php 
+                    function cont($aArray){
+                        $contador = 0;
+                        foreach($aArray as $cantEmpleados){
+                            $contador++;
+                        }
+                        return $contador;
+                    }
+                    echo "La cantidad de empleados activos son: " . cont($aEmpleados);
+                ?>
             </div>
         </div> 
     </main>   
