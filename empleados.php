@@ -23,11 +23,6 @@ $aEmpleados[] = array("dni" => "75744545",
     "bruto" => 70000
 );
 
-
-
-
-
-
 ?>
 <!DOCTYPE html>
 <html lang="es">
