@@ -4,6 +4,11 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+if ($_POST) {
+    header("Location: acceso_confirmado.php");
+} else {
+    echo "Validar";
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -24,28 +29,20 @@ error_reporting(E_ALL);
         <div class="row">
             <div class="col-12">
                 <?php 
-                    if ($_POST) {
-                        $usuario = $_POST("txtUsuario");
-                        $clave = $_POST("txtClave");
-                        if ($usuario == "admin" && $clave == 123456){
-                            header("Location: acceso_confirmado.php");                      
-                        } else{
-                            echo "validar";
-                        }
-                    }
+                    
                 ?>
                 <div class="alert alert-danger" role="alert">
                     Valido para usuarios registrados.
                 </div>
             </div>
             <div class="col-6">
-                <form action="" method="post" class="form">
+                <form action="" method="post">
                     <div class="col-12 my-3">
-                        <label for="">Usuario</label>
+                        <label for="txtUsuario">Usuario</label>
                         <input type="text" name="txtUsuario" id="txtUsuario" class="form-control">
                     </div>
                     <div class="col-12 my-3">
-                        <label for="">Clave</label>
+                        <label for="txtClave">Clave</label>
                         <input type="password" name="txtClave" id="txtClave" class="form-control">
                     </div>
                     <div class="col-12 my-3">
