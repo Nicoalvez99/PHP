@@ -1,14 +1,21 @@
 <?php
-
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-if ($_POST) {
-    header("Location: acceso_confirmado.php");
-} else {
-    echo "Validar";
-}
+    if ($_POST) {
+
+        $usuario = $_REQUEST["txtUsuario"];
+        $clave = $_REQUEST["txtClave"];
+
+        if ($usuario != "" && $clave != ""){
+            header("Location: acceso_confirmado.php");
+        } else {
+             $msg = "Valido para usuarios registrados";
+        }
+    }
+
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -28,15 +35,14 @@ if ($_POST) {
         </div>
         <div class="row">
             <div class="col-12">
-                <?php 
-                    
-                ?>
+                    <?php if(isset($msg)) { ?>
                 <div class="alert alert-danger" role="alert">
-                    Valido para usuarios registrados.
+                    <?php echo $msg ?>
                 </div>
+                <?php } ?>
             </div>
             <div class="col-6">
-                <form action="" method="post">
+                <form action="" method="POST">
                     <div class="col-12 my-3">
                         <label for="txtUsuario">Usuario</label>
                         <input type="text" name="txtUsuario" id="txtUsuario" class="form-control">
