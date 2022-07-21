@@ -3,11 +3,11 @@
 $aNotas = array(8, 4, 5, 3, 9, 1);
 
 function promediar($aNumeros){
-    $numero = 0;
+    $suma = 0;
     foreach($aNumeros as $numero){
-        $numero += $numero;
+        $suma += $numero;
     }
-    return $numero / count($aNumeros);
+    return $suma / count($aNumeros);
 }
 
 echo "El promedio es: " . promediar($aNotas);
