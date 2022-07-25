@@ -3,60 +3,16 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+
+$iva = 21;
+$precioSinIva = 0;
+$precioConIva = 0;
+$ivaCantidad = 0;
 if($_POST){
     $iva = $_POST("txtSelect");
-    if($iva == 21){
-        $precioConIva = $_POST("txtPrecioConIva");
-        $precioSinIva = $_POST("txtPrecioSinIva");
-    
-        function sinIva(){
-            $precioSinIva = $_POST("txtPrecioSinIva");
-            $precioSinIva * (21 / 100 + 1);
-            return $precioSinIva;
-        }
-
-        function conIva(){
-            $precioConIva = $_POST("txtPrecioConIva");
-            $precioConIva / (21 / 100 + 1);
-            return $precioConIva;
-        }
-    }
-    if($iva == 27){
-        $precioConIva = $_POST("txtPrecioConIva");
-        $precioSinIva = $_POST("txtPrecioSinIva");
-        
-
-
-        function sinIva(){
-            $precioSinIva = $_POST("txtPrecioSinIva");
-            $precioSinIva * (27 / 100 + 1);
-            return $precioSinIva;
-        }
-
-        function conIva(){
-            $precioConIva = $_POST("txtPrecioConIva");
-            $precioConIva / (27 / 100 + 1);
-            return $precioConIva;
-        }
-    }
-    if($iva == 19){
-        $precioConIva = $_POST("txtPrecioConIva");
-        $precioSinIva = $_POST("txtPrecioSinIva");
-        
-
-
-        function sinIva(){
-            $precioSinIva = $_POST("txtPrecioSinIva");
-            $precioSinIva * (19 / 100 + 1);
-            return $precioSinIva;
-        }
-
-        function conIva(){
-            $precioConIva = $_POST("txtPrecioConIva");
-            $precioConIva / (19 / 100 + 1);
-            return $precioConIva;
-        }
-    }
+    $precioSinIva = $_POST("txtprecioSinIva");
+    $precioConIva = $_POST("txtPrecioConIva");
+    $ivaCantidad = $precioConIva - $precioSinIva;
 }
 
 
@@ -111,9 +67,9 @@ if($_POST){
                     </thead>
                     <tbody>
                         <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                            <td><?php echo $iva;  ?></td>
+                            <td><?php echo $precioSinIva;  ?></td>
+                            <td><?php echo $precioConIva;  ?></td>
                             <td></td>
                         </tr>
                     </tbody>
