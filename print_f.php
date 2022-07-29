@@ -9,9 +9,13 @@ error_reporting(E_ALL);
 function print_f($variable){
     if(is_array($variable)){
         //si es un array lo recorro y y guardo el contenido en el archivo "datos.txt"
+        $archivo = fopen('datos.txt', 'a+');
+
         foreach($variable as $num){
-            echo $num; 
+            fwrite($archivo, $num);  
         }
+        fclose($archivo); 
+        
     } else {
         //Entonces es string, guardo el contenido en el archivo "datos.txt"
         file_put_contents("datos.txt", $variable);
@@ -22,6 +26,7 @@ function print_f($variable){
 $aNotas = array(5, 8, 9, 7, 10);
 $msg = "Este es un mensaje";
 print_f($aNotas);
+print_f($msg);
 
 
 
