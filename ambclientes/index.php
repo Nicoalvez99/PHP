@@ -18,9 +18,15 @@ if($_POST){
         $nombre = $_POST["txtNombre"];
         $telefono = $_POST["txtNumero"];
         $correo = $_POST["txtCorreo"];
-        if($_FILES["imgArchivo"]["error"] === UPLOAD_ERR_OK)
-            $archivo = $_FILES["imgArchivo"];
-
+        $archivo = $_FILES["imgArchivo"];
+        
+        function guardarImg(){
+            if($_FILES["imgArchivo"]["error"] === UPLOAD_ERR_OK){
+                $nombre = date("Ymdhmsi") . rand(1000, 2000);
+                $archivo_tmp = $_FILES["imgArchivo"]["tmp_name"];
+                move_uploaded_file($archivo_tmp, "imagenes/$nombre.png");
+            }
+        }
         $aClientes = array("dni" => $dni,
             "nombre" => $nombre,
             "telefono" => $telefono,
@@ -28,6 +34,7 @@ if($_POST){
             "archivo" => $archivo 
         );
         $_SESSION["listadoClientes"] = $aClientes;
+        
     }
 
 }
@@ -95,7 +102,7 @@ if($_POST){
                             foreach($aClientes as $cliente){
                         ?>
                         <tr>
-                            <td><?php echo $cliente["archivo"]; ?></td>
+                            <td><?php  ?></td>
                             <td><?php echo $cliente["dni"];  ?></td>
                             <td><?php echo $cliente["nombre"];  ?></td>
                             <td><?php echo $cliente["telefono"];  ?></td>
