@@ -10,6 +10,19 @@ if(isset($_SESSION["listadoClientes"])){
 } else {
     $aClientes = array();
 }
+//Preguntamos si el archivo existe
+if(file_exists("archivo.txt")){
+    //Vamos a leerlo y almacenarrlo en jsonClientes
+    $jsonClientes = file_get_contents("archivo.txt");
+    
+    //Convertir el jsonClientes en un array llamado $aClientes
+    $aClientes = json_decode($jsonClientes, true);
+} else{
+    $aClientes = array();
+}
+    
+//Si no existe el archivo 
+    //Creamos un $aClientes inicializado como un array vacio
 
 
 if($_POST){
@@ -63,6 +76,7 @@ if(isset($_GET["pos"])){
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>abm Clientes</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
 </head>
 <body>

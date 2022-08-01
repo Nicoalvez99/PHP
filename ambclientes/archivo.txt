@@ -1,1 +1,1 @@
-[{"dni":"41919119","nombre":"Nicolas Alvez","telefono":"1557351598","correo":"nicoalvez99@gmail.com"}]
+[{"dni":"41919119","nombre":"Nicolas","telefono":"1557351598","correo":"nicoalvez99@gmail.com"},{"dni":"2345678","nombre":"Valentina","telefono":"1557351598","correo":"nicoalvez99@gmail.com"},{"dni":"2345678","nombre":"Nala","telefono":"1557351598","correo":"nicoalvez99@gmail.com"},{"dni":"12457342","nombre":"Juan Perez","telefono":"1557351598","correo":"nicoalvez99@gmail.com"}]
