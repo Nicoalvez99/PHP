@@ -11,32 +11,43 @@ if(isset($_SESSION["listadoClientes"])){
     $aClientes = array();
 }
 
+
 if($_POST){
-    
+
     if(isset($_POST["btnEnviar"])){
-        $dni = $_POST["txtDni"];
-        $nombre = $_POST["txtNombre"];
-        $telefono = $_POST["txtNumero"];
-        $correo = $_POST["txtCorreo"];
-        $archivo = $_FILES["imgArchivo"];
-        
-        function guardarImg(){
-            if($_FILES["imgArchivo"]["error"] === UPLOAD_ERR_OK){
-                $nombre = date("Ymdhmsi") . rand(1000, 2000);
-                $archivo_tmp = $_FILES["imgArchivo"]["tmp_name"];
-                move_uploaded_file($archivo_tmp, "imagenes/$nombre.png");
-            }
-        }
-        $aClientes = array("dni" => $dni,
+        $dni = trim($_POST["txtDni"]);
+        $nombre = trim($_POST["txtNombre"]);
+        $telefono = trim($_POST["txtNumero"]);
+        $correo = trim($_POST["txtCorreo"]);
+            
+            
+            
+        $aClientes[] = array("dni" => $dni,
             "nombre" => $nombre,
             "telefono" => $telefono,
-            "correo" => $correo,
-            "archivo" => $archivo 
+            "correo" => $correo
+            
         );
         $_SESSION["listadoClientes"] = $aClientes;
         
+        $jsonClientes = json_encode($aClientes);
+        
+        file_put_contents("archivo.txt", $jsonClientes);
     }
+    if(isset($_POST["btnEliminar"])){
+        session_destroy();
+        $aClientes = array();
+    }
+    
+        
+}
+//session_destroy();
 
+if(isset($_GET["pos"])){
+    $pos = $_GET["pos"];
+    unset($aClientes[$pos]);
+    $_SESSION["listadoClientes"] = $aClientes;
+    header("Location: index.php");
 }
 
 
@@ -85,6 +96,7 @@ if($_POST){
                         <input type="file" name="imgArchivo" id="imgArchivo" accept=".jpg, .png, .jpeg">
                     </div>
                     <button type="submit" name="btnEnviar" class="btn btn-primary">Guardar</button>
+                    <button type="submit" name="btnEliminar" class="btn bg-danger">Eliminar</button>
                 </form>
             </div>
             <div class="col-6">
@@ -99,17 +111,17 @@ if($_POST){
                     </thead>
                     <tbody>
                         <?php 
-                            foreach($aClientes as $cliente){
+                            foreach($aClientes as $pos => $cliente):
                         ?>
                         <tr>
                             <td><?php  ?></td>
-                            <td><?php echo $cliente["dni"];  ?></td>
-                            <td><?php echo $cliente["nombre"];  ?></td>
-                            <td><?php echo $cliente["telefono"];  ?></td>
-                            <td><?php echo $cliente["correo"];  ?></td>
-                            <td></td>
+                            <td><?php echo $cliente["dni"]; ?></td>
+                            <td><?php echo $cliente["nombre"]; ?></td>
+                            <td><?php echo $cliente["telefono"]; ?></td>
+                            <td><?php echo $cliente["correo"]; ?></td>
+                            <td><a href="index.php?pos=<?php echo $pos; ?>"><i class="bi bi-trash"></i></a></td>
                         </tr>
-                        <?php } ?>
+                        <?php endforeach; ?>
                     </tbody>
                 </table>
             </div>
