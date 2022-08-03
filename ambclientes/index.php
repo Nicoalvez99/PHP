@@ -23,7 +23,7 @@ if(file_exists("archivo.txt")){
     
 //Si no existe el archivo 
     //Creamos un $aClientes inicializado como un array vacio
-
+$pos = isset($_GET["pos"]) && $_GET["pos"] >= 0 ? $_GET["pos"] : "";
 
 if($_POST){
 
@@ -32,15 +32,26 @@ if($_POST){
         $nombre = trim($_POST["txtNombre"]);
         $telefono = trim($_POST["txtNumero"]);
         $correo = trim($_POST["txtCorreo"]);
+        $nombreImagen = "";
             
             
-            
-        $aClientes[] = array("dni" => $dni,
-            "nombre" => $nombre,
-            "telefono" => $telefono,
-            "correo" => $correo
-            
-        );
+        if($pos >= 0){
+             $aClientes[$pos] = array("dni" => $dni,
+                "nombre" => $nombre,
+                "telefono" => $telefono,
+                "correo" => $correo,
+                "imagen" => $nombreImagen
+                
+            );
+        } else {
+            $aClientes[] = array("dni" => $dni,
+                "nombre" => $nombre,
+                "telefono" => $telefono,
+                "correo" => $correo,
+                "imagen" => $nombreImagen
+                
+            );
+        }
         $_SESSION["listadoClientes"] = $aClientes;
         
         $jsonClientes = json_encode($aClientes);
@@ -56,14 +67,13 @@ if($_POST){
 }
 //session_destroy();
 
-if(isset($_GET["pos"])){
-    $pos = $_GET["pos"];
+
+if(isset($_GET["do"]) && $_GET["do"] == "eliminar"){
     unset($aClientes[$pos]);
-    $_SESSION["listadoClientes"] = $aClientes;
+    $jsonClientes = json_encode($aClientes);
+    file_put_contents("archivo.txt", $jsonClientes);
     header("Location: index.php");
-}
-
-
+} 
 
 
 
@@ -91,23 +101,23 @@ if(isset($_GET["pos"])){
                 <form action="" method="post" enctype="multipart/form-data">
                     <div class="col-12 my-2">
                         <label for="txtDni">DNI</label>
-                        <input type="text" name="txtDni" id="txtDni" class="form-control">
+                        <input type="text" name="txtDni" id="txtDni" class="form-control" value="<?php echo isset($aClientes["pos"])? $aClientes[$pos]["dni"]: "";  ?>">
                     </div>
                     <div class="col-12 my-2">
                         <label for="txtNombre">Nombre</label>
-                        <input type="text" name="txtNombre" id="txtNombre" class="form-control">
+                        <input type="text" name="txtNombre" id="txtNombre" class="form-control" value="<?php echo isset($aClientes["pos"])? $aClientes[$pos]["nombre"]: "";  ?>">
                     </div>
                     <div class="col-12 my-2">
                         <label for="txtNumero">Telefono</label>
-                        <input type="number" name="txtNumero" id="txtNumero" class="form-control">
+                        <input type="number" name="txtNumero" id="txtNumero" class="form-control" value="<?php echo isset($aClientes["pos"])? $aClientes[$pos]["telefono"]: "";  ?>">
                     </div>
                     <div class="col-12 my-2">
                         <label for="txtCorreo">Correo</label>
-                        <input type="email" name="txtCorreo" id="txtCorreo" class="form-control">
+                        <input type="email" name="txtCorreo" id="txtCorreo" class="form-control" value="<?php echo isset($aClientes["pos"])? $aClientes[$pos]["correo"]: "";  ?>">
                     </div>
                     <div class="col-12 my-2">
                         <p>Archivo adjunto: </p>
-                        <input type="file" name="imgArchivo" id="imgArchivo" accept=".jpg, .png, .jpeg">
+                        <input type="file" name="archivo" id="archivo" accept=".jpg, .png, .jpeg">
                     </div>
                     <button type="submit" name="btnEnviar" class="btn btn-primary">Guardar</button>
                     <button type="submit" name="btnEliminar" class="btn bg-danger">Eliminar</button>
@@ -133,7 +143,8 @@ if(isset($_GET["pos"])){
                             <td><?php echo $cliente["nombre"]; ?></td>
                             <td><?php echo $cliente["telefono"]; ?></td>
                             <td><?php echo $cliente["correo"]; ?></td>
-                            <td><a href="index.php?pos=<?php echo $pos; ?>"><i class="bi bi-trash"></i></a></td>
+                            <td><a href="index.php?pos=<?php echo $pos; ?>&do=editar"><i class="bi bi-pencil"></i></a></td>
+                            <td><a href="index.php?pos=<?php echo $pos; ?>&do=eliminar"><i class="bi bi-trash"></i></a></td>
                         </tr>
                         <?php endforeach; ?>
                     </tbody>
