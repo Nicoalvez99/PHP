@@ -33,7 +33,16 @@ if($_POST){
         $telefono = trim($_POST["txtNumero"]);
         $correo = trim($_POST["txtCorreo"]);
         $nombreImagen = "";
-            
+
+        if($_FILES["archivo"]["error"] === UPLOAD_ERR_OK){
+            $nombreAleatorio = date("Ymdhmsi"); // Creamos un nombre aleatorio con date()
+            $archivo_tmp = $_FILES["archivo"]["tmp_name"]; //al archivo que viene por el metodo FILES lo asignamos a una variable
+            $extension = strtolower(pathinfo($_FILES["archivo"]["name"], PATHINFO_EXTENSION)); //averiguamos la extencion o el path
+            if($extension == "jpg" || $extension == "jpeg" || $extension == "png"){ //preguntamos si la extencion es jpg jpeg o png
+            $nombreImagen = "$nombreAleatorio.$extension"; //a la variable $nombreImagen le asignamos el nombre con la extencion
+            move_uploaded_file($archivo_tmp, "imagenes/$nombreImagen"); // y movemos el archivo a la carpeta imagenes
+            }
+        }
             
         if($pos >= 0){
              $aClientes[$pos] = array("dni" => $dni,
@@ -138,7 +147,7 @@ if(isset($_GET["do"]) && $_GET["do"] == "eliminar"){
                             foreach($aClientes as $pos => $cliente):
                         ?>
                         <tr>
-                            <td><?php  ?></td>
+                            <td><img src="imagenes/<?php echo $cliente["imagen"]; ?>" class="img-thumbnail" ></td>
                             <td><?php echo $cliente["dni"]; ?></td>
                             <td><?php echo $cliente["nombre"]; ?></td>
                             <td><?php echo $cliente["telefono"]; ?></td>
