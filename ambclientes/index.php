@@ -3,13 +3,7 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-session_start();
 
-if(isset($_SESSION["listadoClientes"])){
-    $aClientes = $_SESSION["listadoClientes"];
-} else {
-    $aClientes = array();
-}
 //Preguntamos si el archivo existe
 if(file_exists("archivo.txt")){
     //Vamos a leerlo y almacenarrlo en jsonClientes
@@ -20,62 +14,67 @@ if(file_exists("archivo.txt")){
 } else{
     $aClientes = array();
 }
-    
-//Si no existe el archivo 
-    //Creamos un $aClientes inicializado como un array vacio
+
 $pos = isset($_GET["pos"]) && $_GET["pos"] >= 0 ? $_GET["pos"] : "";
 
 if($_POST){
-
     if(isset($_POST["btnEnviar"])){
         $dni = trim($_POST["txtDni"]);
         $nombre = trim($_POST["txtNombre"]);
         $telefono = trim($_POST["txtNumero"]);
         $correo = trim($_POST["txtCorreo"]);
         $nombreImagen = "";
-
-        if($_FILES["archivo"]["error"] === UPLOAD_ERR_OK){
-            $nombreAleatorio = date("Ymdhmsi"); // Creamos un nombre aleatorio con date()
-            $archivo_tmp = $_FILES["archivo"]["tmp_name"]; //al archivo que viene por el metodo FILES lo asignamos a una variable
-            $extension = strtolower(pathinfo($_FILES["archivo"]["name"], PATHINFO_EXTENSION)); //averiguamos la extencion o el path
-            if($extension == "jpg" || $extension == "jpeg" || $extension == "png"){ //preguntamos si la extencion es jpg jpeg o png
-            $nombreImagen = "$nombreAleatorio.$extension"; //a la variable $nombreImagen le asignamos el nombre con la extencion
-            move_uploaded_file($archivo_tmp, "imagenes/$nombreImagen"); // y movemos el archivo a la carpeta imagenes
-            }
-        }
             
         if($pos >= 0){
-             $aClientes[$pos] = array("dni" => $dni,
+            if($_FILES["archivo"]["error"] === UPLOAD_ERR_OK){
+                $nombreAleatorio = date("Ymdhmsi"); // Creamos un nombre aleatorio con date()
+                $archivo_tmp = $_FILES["archivo"]["tmp_name"]; //al archivo que viene por el metodo FILES lo asignamos a una variable
+                $extension = strtolower(pathinfo($_FILES["archivo"]["name"], PATHINFO_EXTENSION)); //averiguamos la extencion o el path
+                if($extension == "jpg" || $extension == "jpeg" || $extension == "png"){ //preguntamos si la extencion es jpg jpeg o png
+                $nombreImagen = "$nombreAleatorio.$extension"; //a la variable $nombreImagen le asignamos el nombre con la extencion
+                move_uploaded_file($archivo_tmp, "imagenes/$nombreImagen"); // y movemos el archivo a la carpeta imagenes
+                }
+                if($aClientes[$pos]["imagen"] != "" && file_exists("imagenes/".$aClientes[$pos]["imagen"])){
+                    unlink("imagenes/".$aClientes[$pos]["imagen"]);
+                }
+            } else{
+                $nombreImagen = $aClientes[$pos]["imagen"];
+            }
+
+
+            $aClientes[$pos] = array("dni" => $dni,
                 "nombre" => $nombre,
                 "telefono" => $telefono,
                 "correo" => $correo,
                 "imagen" => $nombreImagen
                 
             );
+
         } else {
-            $aClientes[] = array("dni" => $dni,
-                "nombre" => $nombre,
-                "telefono" => $telefono,
-                "correo" => $correo,
-                "imagen" => $nombreImagen
-                
-            );
+            if($_FILES["archivo"]["error"] === UPLOAD_ERR_OK){
+                    $nombreAleatorio = date("Ymdhmsi"); // Creamos un nombre aleatorio con date()
+                    $archivo_tmp = $_FILES["archivo"]["tmp_name"]; //al archivo que viene por el metodo FILES lo asignamos a una variable
+                    $extension = strtolower(pathinfo($_FILES["archivo"]["name"], PATHINFO_EXTENSION)); //averiguamos la extencion o el path
+                    if($extension == "jpg" || $extension == "jpeg" || $extension == "png"){ //preguntamos si la extencion es jpg jpeg o png
+                        $nombreImagen = "$nombreAleatorio.$extension"; //a la variable $nombreImagen le asignamos el nombre con la extencion
+                        move_uploaded_file($archivo_tmp, "imagenes/$nombreImagen"); // y movemos el archivo a la carpeta imagenes
+                    }
+                $aClientes[] = array("dni" => $dni,
+                    "nombre" => $nombre,
+                    "telefono" => $telefono,
+                    "correo" => $correo,
+                    "imagen" => $nombreImagen
+                    
+                );
+            }    
+        
         }
-        $_SESSION["listadoClientes"] = $aClientes;
         
         $jsonClientes = json_encode($aClientes);
         
         file_put_contents("archivo.txt", $jsonClientes);
     }
-    if(isset($_POST["btnEliminar"])){
-        session_destroy();
-        $aClientes = array();
-    }
-    
-        
 }
-//session_destroy();
-
 
 if(isset($_GET["do"]) && $_GET["do"] == "eliminar"){
     unset($aClientes[$pos]);
