@@ -3,47 +3,37 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-if(file_exists("archivo.txt")){
+if (file_exists("archivo.txt")) {
     $jsonTareas = file_get_contents("archivo.txt");
 
     $aTareas = json_decode($jsonTareas, true);
-} else{
+} else {
     $aTareas = array();
 }
-
-if(isset($_POST["btnEnviar"])){
-    $prioridad = $_POST["txtPrioridad"];
-    $usuario = $_POST["txtUsuario"];
-    $estado = $_POST["txtEstado"];
-    $titulo = $_POST["txtTitulo"];
-    $descripcion = $_POST["txtDescripcion"];
-
-    $aTareas = array();
-
-    $aTareas[] = array("prioridad" => $prioridad,
-                    "usuario" => $usuario,
-                    "estado" => $estado,
-                    "titulo" => $titulo
-                    
-    );
+if ($_POST) {
+    if (isset($_POST["btnEnviar"])) {
+        $prioridad = $_POST["txtPrioridad"];
+        $usuario = $_POST["txtUsuario"];
+        $estado = $_POST["txtEstado"];
+        $titulo = $_POST["txtTitulo"];
+        $descripcion = $_POST["txtDescripcion"];
 
 
-    $jsonTareas = json_encode(($aTareas));
-    file_put_contents("archivo.txt", $jsonTareas);
+
+        $aTareas[] = array(
+            "prioridad" => $prioridad,
+            "usuario" => $usuario,
+            "estado" => $estado,
+            "titulo" => $titulo,
+            "fecha" => date("Y/m/d")
+
+        );
+
+        $jsonTareas = json_encode($aTareas);
+        file_put_contents("archivo.txt", $jsonTareas);
+    }
     
-} 
-
-
-
-
-
-
-
-
-
-
-
-
+}
 
 
 
@@ -125,17 +115,17 @@ if(isset($_POST["btnEnviar"])){
                         <th>Estado</th>
                     </thead>
                     <tbody>
+                    <?php foreach ($aTareas as $pos => $tarea){ ?>
                         <tr>
-                            <?php foreach($aTareas as $pos => $tarea): ?>
-                            <td><?php echo $pos; ?></td>
-                            <td><?php echo date("d/m/Y"); ?></td>
-                            <td><?php echo $tarea["titulo"]; ?></td>
-                            <td><?php echo $tarea["prioridad"]; ?></td>
-                            <td><?php echo $tarea["usuario"]; ?></td>
-                            <td><?php echo $tarea["estado"]; ?></td>
-                            <td></td>
-                            <?php endforeach; ?>
+                                <td><?php echo $pos; ?></td>
+                                <td><?php echo $tarea["fecha"]; ?></td>
+                                <td><?php echo $tarea["titulo"]; ?></td>
+                                <td><?php echo $tarea["prioridad"]; ?></td>
+                                <td><?php echo $tarea["usuario"]; ?></td>
+                                <td><?php echo $tarea["estado"]; ?></td>
+                                <td></td>
                         </tr>
+                        <?php } ?>
                     </tbody>
                 </table>
             </div>
