@@ -109,19 +109,19 @@ if(isset($_GET["do"]) && $_GET["do"] == "eliminar"){
                 <form action="" method="post" enctype="multipart/form-data">
                     <div class="col-12 my-2">
                         <label for="txtDni">DNI</label>
-                        <input type="text" name="txtDni" id="txtDni" class="form-control" value="<?php echo isset($aClientes["pos"])? $aClientes[$pos]["dni"]: "";  ?>">
+                        <input type="text" name="txtDni" id="txtDni" class="form-control" value="<?php echo isset($aClientes[$pos])? $aClientes[$pos]["dni"]: "";  ?>">
                     </div>
                     <div class="col-12 my-2">
                         <label for="txtNombre">Nombre</label>
-                        <input type="text" name="txtNombre" id="txtNombre" class="form-control" value="<?php echo isset($aClientes["pos"])? $aClientes[$pos]["nombre"]: "";  ?>">
+                        <input type="text" name="txtNombre" id="txtNombre" class="form-control" value="<?php echo isset($aClientes[$pos])? $aClientes[$pos]["nombre"]: "";  ?>">
                     </div>
                     <div class="col-12 my-2">
                         <label for="txtNumero">Telefono</label>
-                        <input type="number" name="txtNumero" id="txtNumero" class="form-control" value="<?php echo isset($aClientes["pos"])? $aClientes[$pos]["telefono"]: "";  ?>">
+                        <input type="number" name="txtNumero" id="txtNumero" class="form-control" value="<?php echo isset($aClientes[$pos])? $aClientes[$pos]["telefono"]: "";  ?>">
                     </div>
                     <div class="col-12 my-2">
                         <label for="txtCorreo">Correo</label>
-                        <input type="email" name="txtCorreo" id="txtCorreo" class="form-control" value="<?php echo isset($aClientes["pos"])? $aClientes[$pos]["correo"]: "";  ?>">
+                        <input type="email" name="txtCorreo" id="txtCorreo" class="form-control" value="<?php echo isset($aClientes[$pos])? $aClientes[$pos]["correo"]: "";  ?>">
                     </div>
                     <div class="col-12 my-2">
                         <p>Archivo adjunto: </p>

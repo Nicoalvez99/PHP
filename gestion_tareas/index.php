@@ -10,32 +10,49 @@ if (file_exists("archivo.txt")) {
 } else {
     $aTareas = array();
 }
+
+$pos = isset($_GET["pos"]) && $_GET["pos"] >= 0 ? $_GET["pos"] : "";
+
 if ($_POST) {
-    if (isset($_POST["btnEnviar"])) {
-        $prioridad = $_POST["txtPrioridad"];
-        $usuario = $_POST["txtUsuario"];
-        $estado = $_POST["txtEstado"];
+        $prioridad = $_POST["lstPrioridad"];
+        $usuario = $_POST["lstUsuario"];
+        $estado = $_POST["lstEstado"];
         $titulo = $_POST["txtTitulo"];
         $descripcion = $_POST["txtDescripcion"];
+        
+        if($pos >= 0){
+            $aTareas[$pos] = array(
+                "prioridad" => $prioridad,
+                "usuario" => $usuario,
+                "estado" => $estado,
+                "titulo" => $titulo,
+                "fecha" => date("Y/m/d")
+    
+            );
+        } else {
+            $aTareas[] = array(
+                "prioridad" => $prioridad,
+                "usuario" => $usuario,
+                "estado" => $estado,
+                "titulo" => $titulo,
+                "fecha" => date("Y/m/d")
+    
+            );
+        }
 
-
-
-        $aTareas[] = array(
-            "prioridad" => $prioridad,
-            "usuario" => $usuario,
-            "estado" => $estado,
-            "titulo" => $titulo,
-            "fecha" => date("Y/m/d")
-
-        );
 
         $jsonTareas = json_encode($aTareas);
         file_put_contents("archivo.txt", $jsonTareas);
-    }
-    
 }
+    
 
 
+if(isset($_GET["do"]) && $_GET["do"] == "eliminar"){
+    unset($aTareas[$pos]);
+    $jsonTareas = json_encode($aTareas);
+    file_put_contents("archivo.txt", $jsonTareas);
+    header("Location: index.php");
+}
 
 ?>
 <!DOCTYPE html>
@@ -62,17 +79,17 @@ if ($_POST) {
                 <div class="row">
                     <div class="col-4">
                         <label for="txtPrioridad">Prioridad:</label>
-                        <select name="txtPrioridad" id="txtPrioridad" class="form-control">
-                            <option value="seleccionar" disabled selected>Seleccionar</option>
-                            <option value="Alta">Alta</option>
+                        <select name="txtPrioridad" id="lstPrioridad" class="form-control">
+                            <option value="seleccionar" disabled selected value="<?php echo isset($aTareas[$pos])? $aTareas[$pos]["prioridad"] : ""; ?>">Seleccionar</option>
+                            <option value="<?php echo isset($aTareas[$pos])? $aTareas[$pos]["prioridad"] : "Alta" ?>">Alta</option>
                             <option value="Media">Media</option>
                             <option value="Baja">Baja</option>
                         </select>
                     </div>
                     <div class="col-4">
                         <label for="txtUsuario">Usuario:</label>
-                        <select name="txtUsuario" id="txtUsuario" class="form-control">
-                            <option value="seleccionar" disabled selected>Seleccionar</option>
+                        <select name="txtUsuario" id="lstUsuario" class="form-control">
+                            <option value="seleccionar" disabled selected value="<?php echo isset($aTareas["pos"])? $aTareas[$pos]["usuario"] : ""; ?>">Seleccionar</option>
                             <option value="Ana">Ana</option>
                             <option value="Bernabe">Bernabé</option>
                             <option value="Daniela">Daniela</option>
@@ -80,8 +97,8 @@ if ($_POST) {
                     </div>
                     <div class="col-4">
                         <label for="txtEstado">Estado:</label>
-                        <select name="txtEstado" id="txtEstado" class="form-control">
-                            <option value="seleccionar" disabled selected>Seleccionar</option>
+                        <select name="txtEstado" id="lstEstado" class="form-control">
+                            <option value="seleccionar" disabled selected value="<?php echo isset($aTareas["pos"])? $aTareas[$pos]["estado"] : ""; ?>">Seleccionar</option>
                             <option value="Sin signar">Sin Asignar</option>
                             <option value="Asignado">Asignado</option>
                             <option value="Proceso">En Proceso</option>
@@ -92,7 +109,7 @@ if ($_POST) {
                 <div class="row">
                     <div class="col-12">
                         <label for="txtTitulo">Titulo:</label>
-                        <input type="text" name="txtTitulo" class="form-control">
+                        <input type="text" name="txtTitulo" class="form-control" value="<?php echo isset($aTareas[$pos])? $aTareas[$pos]["titulo"] : ""; ?>">
                     </div>
                     <div class="col-12">
                         <label for="txtDescripcion">Descripción</label>
@@ -123,7 +140,8 @@ if ($_POST) {
                                 <td><?php echo $tarea["prioridad"]; ?></td>
                                 <td><?php echo $tarea["usuario"]; ?></td>
                                 <td><?php echo $tarea["estado"]; ?></td>
-                                <td></td>
+                                <td><a href="index.php?pos=<?php echo $pos; ?>&do=editar"><i class="bi bi-pencil"></i></a></td>
+                                <td><a href="index.php?pos=<?php echo $pos; ?>&do=eliminar"><i class="bi bi-trash"></i></a></td>
                         </tr>
                         <?php } ?>
                     </tbody>
