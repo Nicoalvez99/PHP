@@ -80,29 +80,29 @@ if(isset($_GET["do"]) && $_GET["do"] == "eliminar"){
                     <div class="col-4">
                         <label for="txtPrioridad">Prioridad:</label>
                         <select name="txtPrioridad" id="lstPrioridad" class="form-control">
-                            <option value="seleccionar" disabled selected value="<?php echo isset($aTareas[$pos])? $aTareas[$pos]["prioridad"] : ""; ?>">Seleccionar</option>
-                            <option value="<?php echo isset($aTareas[$pos])? $aTareas[$pos]["prioridad"] : "Alta" ?>">Alta</option>
-                            <option value="Media">Media</option>
-                            <option value="Baja">Baja</option>
+                            <option value="seleccionar" disabled selected>Seleccionar</option>
+                            <option value="Alta" <?php echo isset($aTareas[$pos]) && $aTareas[$pos]["prioridad"] == "Alta"? "selected" : ""; ?>>Alta</option>
+                            <option value="Media" <?php echo isset($aTareas[$pos]) && $aTareas[$pos]["prioridad"] == "Media"? "selected" : ""; ?>>Media</option>
+                            <option value="Baja" <?php echo isset($aTareas[$pos]) && $aTareas[$pos]["prioridad"] == "Baja"? "selected" : ""; ?>>Baja</option>
                         </select>
                     </div>
                     <div class="col-4">
                         <label for="txtUsuario">Usuario:</label>
                         <select name="txtUsuario" id="lstUsuario" class="form-control">
-                            <option value="seleccionar" disabled selected value="<?php echo isset($aTareas["pos"])? $aTareas[$pos]["usuario"] : ""; ?>">Seleccionar</option>
-                            <option value="Ana">Ana</option>
-                            <option value="Bernabe">Bernabé</option>
-                            <option value="Daniela">Daniela</option>
+                            <option value="seleccionar" disabled selected>Seleccionar</option>
+                            <option value="Ana" <?php echo isset($aTareas[$pos]) && $aTareas[$pos]["usuario"] == "Ana"? "selected" : ""; ?>>Ana</option>
+                            <option value="Bernabe" <?php echo isset($aTareas[$pos]) && $aTareas[$pos]["usuario"] == "Bernabe"? "selected" : ""; ?>>Bernabé</option>
+                            <option value="Daniela" <?php echo isset($aTareas[$pos]) && $aTareas[$pos]["usuario"] == "Daniela"? "selected" : ""; ?>>Daniela</option>
                         </select>
                     </div>
                     <div class="col-4">
                         <label for="txtEstado">Estado:</label>
                         <select name="txtEstado" id="lstEstado" class="form-control">
-                            <option value="seleccionar" disabled selected value="<?php echo isset($aTareas["pos"])? $aTareas[$pos]["estado"] : ""; ?>">Seleccionar</option>
-                            <option value="Sin signar">Sin Asignar</option>
-                            <option value="Asignado">Asignado</option>
-                            <option value="Proceso">En Proceso</option>
-                            <option value="Terminado">Terminado</option>
+                            <option value="seleccionar" disabled selected>Seleccionar</option>
+                            <option value="Sin signar" <?php echo isset($aTareas[$pos]) && $aTareas[$pos]["estado"] == "Sin asignar"? "selected" : ""; ?>>Sin Asignar</option>
+                            <option value="Asignado" <?php echo isset($aTareas[$pos]) && $aTareas[$pos]["estado"] == "Asignado"? "selected" : ""; ?>>Asignado</option>
+                            <option value="Proceso" <?php echo isset($aTareas[$pos]) && $aTareas[$pos]["estado"] == "Proceso"? "selected" : ""; ?>>En Proceso</option>
+                            <option value="Terminado" <?php echo isset($aTareas[$pos]) && $aTareas[$pos]["estado"] == "Terminado"? "selected" : ""; ?>>Terminado</option>
                         </select>
                     </div>
                 </div>
