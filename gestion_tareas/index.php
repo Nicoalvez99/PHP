@@ -40,7 +40,6 @@ if ($_POST) {
             );
         }
 
-
         $jsonTareas = json_encode($aTareas);
         file_put_contents("archivo.txt", $jsonTareas);
 }
