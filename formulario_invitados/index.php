@@ -3,14 +3,36 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-$read = fopen("invitados.csv", 'r');
+if(file_exists("invitados.csv")){
+    $read = fopen("invitados.csv", 'r');
 
-$aDni = fgetcsv($read);
+    $aDni = fgetcsv($read, 0, ",");
+
+} else {
+    $aDni = array();
+}
+
+
 if($_POST){
-    if($_POST["btnInvitado"]){
+    if(isset($_POST["btnInvitado"])){
         $documento = $_POST["txtDocumento"];
-        print_r($documento);
-        echo in_array($documento, $aDni)? "Bienvenido" : "DNI no registrado";
+      
+        if(in_array($documento, $aDni)){
+            $mensajeBienvenido = "¡Bienvenido a la fiesta!";
+        } else {
+            $mensajeRechazado = "DNI no registrado";
+        }
+    }
+
+    if(isset($_POST["btnCodigo"])){
+        $codigo = $_POST["txtCodigo"];
+
+        if($codigo == "verde"){
+            $numeroAcceso = rand(1000, 10000);
+            $mensajeCodigo =  "Su codigo de acceso es " . $numeroAcceso;
+        } else {
+            $mensajeNoCodigo = "No tiene pase VIP";
+        }
     }
 
 }
@@ -38,7 +60,15 @@ if($_POST){
                 <p>Complete el siguiente formulario:</p>
             </div>
         </div>
-        <?php  ?>
+        <?php if(isset($mensajeBienvenido)){ ?>
+            <div class="alert alert-info" role="alert">
+                <?php echo $mensajeBienvenido; ?>
+            </div>
+            <?php } else if(isset($mensajeRechazado)) { ?>
+            <div class="alert alert-danger" role="alert">
+                  <?php echo $mensajeRechazado; ?>
+            </div>        
+            <?php } ?>
         <div class="row">
             <form action="" method="post">
                 <div class="col-6 my-3">
@@ -46,7 +76,15 @@ if($_POST){
                     <input type="text" name="txtDocumento" class="form-control">
                 </div>
                 <button type="submit" name="btnInvitado" class="btn btn-primary">Verificar invitado</button>
-                
+                <?php if(isset($mensajeCodigo)){ ?>
+                    <div class="alert alert-info" role="alert">
+                        ¡Tenes pase VIP tu clave es: <?php echo isset($numeroAcceso) ? $numeroAcceso : ""; ?>
+                    </div>
+                <?php } else if(isset($mensajeNoCodigo)){ ?>
+                    <div class="alert alert-danger" role="alert">
+                        <?php echo $mensajeNoCodigo; ?>
+                    </div>
+                <?php } ?>
                 <div class="col-6 my-3">
                     <label for="txtCodigo">Ingrese el código secreto para el pase VIP</label>
                     <input type="text" name="txtCodigo" class="form-control">
