@@ -49,6 +49,7 @@ if($_POST){
                 "imagen" => $nombreImagen
                 
             );
+            print_r($aClientes[$pos]);
 
         } else {
             if($_FILES["archivo"]["error"] === UPLOAD_ERR_OK){
@@ -78,6 +79,7 @@ if($_POST){
 
 if(isset($_GET["do"]) && $_GET["do"] == "eliminar"){
     unset($aClientes[$pos]);
+    //unlink();
     $jsonClientes = json_encode($aClientes);
     file_put_contents("archivo.txt", $jsonClientes);
     header("Location: index.php");
