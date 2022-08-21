@@ -40,8 +40,6 @@ if($_POST){
             } else{
                 $nombreImagen = $aClientes[$pos]["imagen"];
             }
-
-
             $aClientes[$pos] = array("dni" => $dni,
                 "nombre" => $nombre,
                 "telefono" => $telefono,
@@ -49,7 +47,7 @@ if($_POST){
                 "imagen" => $nombreImagen
                 
             );
-            print_r($aClientes[$pos]);
+            
 
         } else {
             if($_FILES["archivo"]["error"] === UPLOAD_ERR_OK){
@@ -70,24 +68,17 @@ if($_POST){
             }    
         
         }
-        
         $jsonClientes = json_encode($aClientes);
-        
         file_put_contents("archivo.txt", $jsonClientes);
     }
 }
-
 if(isset($_GET["do"]) && $_GET["do"] == "eliminar"){
     unset($aClientes[$pos]);
     //unlink();
     $jsonClientes = json_encode($aClientes);
     file_put_contents("archivo.txt", $jsonClientes);
     header("Location: index.php");
-} 
-
-
-
-
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -133,6 +124,7 @@ if(isset($_GET["do"]) && $_GET["do"] == "eliminar"){
                     <button type="submit" name="btnEliminar" class="btn bg-danger">Eliminar</button>
                 </form>
             </div>
+            
             <div class="col-6">
                 <table class="table table-hover">
                     <thead>
