@@ -1,0 +1,14 @@
+.spnContainer{
+    position: fixed;
+    width: 200vh;
+    height: 100vh;
+    background-color: aliceblue;
+    opacity: 0.5;
+}
+
+.spin {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+
+}

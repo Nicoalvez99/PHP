@@ -1,3 +1,21 @@
+<?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+if(file_exists("productos.json")){
+    $jsonProductos = file_get_contents("productos.json", true);
+    $aProductos = json_decode($jsonProductos, associative: true);
+} else {
+    $aProductos = array();
+}
+
+
+
+
+
+
+?>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -32,22 +50,25 @@
             </div>
         </nav>
     </header>
-    <main class="container">
+    <main class="container-fluid">
         <div class="row">
-            <div class="col-12">
+            <?php foreach($aProductos as $producto){ ?>
+            <div class="col-3 my-3">
                 <div class="card" style="width: 18rem;">
-                    <img src="imagenes/xiaomi-redmi-9a.jpg" class="card-img-top" alt="">
+                    <img src="imagenes/<?php echo $producto["imagen"]; ?>" class="img-thumbnail mx-auto width="200px" alt="">
                     <div class="card-body">
-                        <h5 class="card-title">XIAMI REDMI 9A</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        <h5 class="card-title"><?php echo $producto["nombre"]; ?></h5>
+                        <p class="card-text"><?php echo "Modelo: " . $producto["modelo"]; ?></p>
+                        <p class="card-text" style="color: green;"><?php echo "$" . number_format($producto["precio"], 2, ".", ","); ?></p>
                         <button type="submit" class="btn btn-primary">+ Agregar al carrito</button>
                     </div>
                 </div>
             </div>
+            <?php } ?>
         </div>
     </main>
     <!-- JavaScript Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
 </body>
 
 </html>
