@@ -10,5 +10,15 @@
     position: fixed;
     left: 50%;
     top: 50%;
+    color: #202020;
 
+}
+a {
+    border-bottom: none;
+}
+
+.fondo {
+    background-image: url("../imagenes/fondo.PNG");
+    background-color: #202020;
+    
 }
