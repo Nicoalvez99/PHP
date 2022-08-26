@@ -8,52 +8,58 @@ class Cliente {
     protected $nombre;
     protected $correo;
     protected $telefono;
-    protected $descuento = 0.0;
+    
 
-    public function setDni($dni){ $this -> dni = $dni;}
-    public function getDni(){ return $this -> dni; }
-
-    public function setNombre($nombre){ $this -> nombre = $nombre; }
-    public function getNombre(){ return $this -> nombre; }
-
-    public function setCorreo($correo){ $this -> correo = $correo; }
-    public function getCorreo(){ return $this -> correo; }
-
-    public function setTelefono($telefono){ $this -> telefono = $telefono; }
-    public function getTelefono(){ return $this -> telefono; }
+    public function __construct(){
+        $this -> descuento = 0.0;
+    }
+    
+    public function __get($propiedad)
+    {
+        return $this -> $propiedad;
+    }
+    public function __set($propiedad, $valor)
+    {
+        $this -> $propiedad = $valor;
+    }
+    
 
     public function imprimir(){
-
+        echo "Dni: " . $this -> dni . "<br>";
+        echo "Nombre: " . $this -> nombre . "<br>";
+        echo "Correo: " . $this -> correo . "<br>";
+        echo "Telefono: " . $this -> telefono . "<br><br>"; 
     }
 }
 
 class Producto {
     protected $codigo;
     protected $nombre;
-    protected $precio = 0.0;
     protected $descripcion;
-    protected $iva = 0.0;
+    
 
-    public function setCodigo($codigo){ $this -> codigo = $codigo; }
-    public function getCodigo(){ return $this -> codigo; }
-
-    public function setNombre($nombre){ $this -> nombre = $nombre; }
-    public function getNombre(){ return $this -> nombre; }
-
-    public function setPrecio($precio){ $this -> precio = $precio; }
-    public function getPrecio(){ return $this -> precio; }
-
-    public function setDescripcion($descripcion){ $this -> descripcion = $descripcion; }
-    public function getDescripcion(){ return $this -> descripcion; }
-
-    public function setIva($iva){ $this -> iva = $iva; }
-    public function getIva(){ return $this -> iva; }
+    public function __construct()
+    {
+        $this -> precio = 0.0;
+        $this -> iva = 0.0;
+    }
+    public function __get($propiedad)
+    {
+        return $this -> $propiedad;
+    }
+    public function __set($propiedad, $valor)
+    {
+        $this -> $propiedad = $valor;
+    }
+    
     
     public function imprimir(){
         echo "Codigo: " . $this -> codigo . "<br>";
         echo "Nombre: " . $this -> nombre . "<br>";
         echo "Precio: " . $this -> precio . "<br>";
         echo "Descripcion: " . $this -> descripcion . "<br>";
+        echo "Iva: " . $this -> iva . "<br>";
+        echo "Total: " . $this -> precio . "<br><br>";
 
     }
 }
@@ -61,27 +67,52 @@ class Producto {
 
 class Carrito{
     protected $cliente;
-    protected $aProductos = array();
-    protected $subTotal = 0.0;
-    protected $total = 0.0;
+    
 
-    public function setCliente($cliente){ $this -> cliente = $cliente; }
-    public function getCliente(){ return $this -> cliente; }
+    public function __construct()
+    {
+        $this -> aProductos = array();
+        $this -> subTotal = 0.0;
+        $this -> total = 0.0;
+    }
+    public function __get($propiedad)
+    {
+        return $this -> $propiedad;
+    }
+    public function __set($propiedad, $valor)
+    {
+        $this -> $propiedad = $valor;
+    }
 
-    public function setaProductos($aProductos){ $this -> aProductos = $aProductos; }
-    public function getaProductos(){ return $this -> aProductos; }
-
-    public function setSubTotalo($subTotal){ $this -> subTotal = $subTotal; }
-    public function getSubTotal(){ return $this -> subTotal; }
-
-    public function setTotal($total){ $this -> total = $total; }
-    public function getTotal(){ return $this -> total; }
-
-    public function cargarProducto(){
-
+    public function cargarProducto($producto){
+        $this -> aProductos[] = $producto;
     }
     public function imprimirTicket(){
-        
+        echo "<table class='table table-hover border' style='width: 400px;'>";
+        echo "<tr><th colspan='2' class='text-center'>ECO MARKET</th></tr>
+                <tr>
+                    <th>" . date("Y/m/d H:i:s") . "</th>
+                <tr>
+                    <th>DNI</th>
+                    <td>" . $this -> cliente -> dni . "</td>
+                </tr>
+                <tr>
+                    <th>Nombre: </th>
+                    <td>" . $this -> cliente -> nombre . "</td>
+                </tr>
+                <tr>
+                    <th colspan='2'>Productos: </th>
+                    <td>";
+                        foreach($this -> aProductos as $producto){
+                            echo "<tr>
+                                        <td>" . $producto -> nombre . "</td>
+                                        <td>" . number_format($producto -> precio, 2, ".", ",") . "</td>
+                                </tr>";
+                            $this -> subTotal += $producto -> precio;
+                            $this -> total += $producto -> precio * ($producto -> iva / 100 + 1);
+                        }
+                    echo "</table>";
+
     }
 
 
@@ -89,14 +120,44 @@ class Carrito{
 }
 
 
+$cliente1 = new Cliente();
+$cliente1 -> dni = "78676976";
+$cliente1 -> nombre = "Bernabé";
+$cliente1 -> correo = "bernabe@gmail.com";
+$cliente1 -> telefono = "+541557351589";
+$cliente1 -> descuento = 0.05;
+//print_r($cliente1);
+//$cliente1 -> imprimir();
 
+$producto1 = new Producto();
+$producto1 -> codigo = "8374297";
+$producto1 -> nombre = "Heladera Wirpool";
+$producto1 -> descripcion = "Esta es una heladera";
+$producto1 -> precio = 78000;
+$producto1 -> iva = 10.5;
+//$producto1 -> imprimir();
 
-
-
-
-
-
-
+$carrito = new Carrito();
+$carrito -> cliente = $cliente1;
+//print_r($carrito);
+$carrito -> cargarProducto($producto1);
+//print_r($carrito);
+$carrito -> imprimirTicket();
 
 
 ?>
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrito POO</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+
+</head>
+<body>
+    
+</body>
+</html>
