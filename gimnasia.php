@@ -9,17 +9,13 @@ class Persona {
     protected $correo;
     protected $celular;
 
-    public function setDni($dni){ $this -> dni = $dni;}
-    public function getDni(){ return $this -> dni; }
-
-    public function setNombre($nombre){ $this -> nombre = $nombre;}
-    public function getNombre(){ return $this -> nombre; }
-
-    public function setCorreo($correo){ $this -> correo = $correo;}
-    public function getCorreo(){ return $this -> correo; }
-
-    public function setCelular($celular){ $this -> celular = $celular;}
-    public function getCelular(){ return $this -> celular; }
+    public function __construct($dni, $nombre, $correo, $celular)
+    {
+        $this -> dni = $dni;
+        $this -> nombre = $nombre;
+        $this -> correo = $correo;
+        $this -> celular = $celular;
+    }
 }
 
 
@@ -49,8 +45,10 @@ class Alumno extends Persona {
         $this -> presentismo = 0.0;
     }
 
-    public function setFichaMedica(){
-
+    public function setFichaMedica($peso, $altura, $aptoFisico){
+        return $this -> $peso;
+        return $this -> $altura;
+        return $this -> $aptoFisico;
     }
 }
 
@@ -113,9 +111,15 @@ class Clase {
 }
 
 
-$entrenador1 = new Entrenador ("87392749", "Miguel Ocampo", "miguel@gmail.com", "1144556677");
+$entrenador1 = new Entrenador("87392749", "Miguel Ocampo", "miguel@gmail.com", "1144556677");
 
-print_r($entrenador1);
+
+$alumno1 = new Alumno("823720323", "Juan Perez", "juanperez@gmail.com", "11767454321");
+$alumno1 -> setFichaMedica(90, 178, true);
+$alumno1 -> presentismo = 78;
+
+print_r($alumno1);
+
 
 
 
