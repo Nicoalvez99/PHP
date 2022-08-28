@@ -118,7 +118,7 @@ $alumno1 = new Alumno("823720323", "Juan Perez", "juanperez@gmail.com", "1176745
 $alumno1 -> setFichaMedica(90, 178, true);
 $alumno1 -> presentismo = 78;
 
-print_r($alumno1);
+
 
 
 
