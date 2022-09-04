@@ -21,6 +21,7 @@ class Persona{
     }
     public function __set($propiedad, $valor){
         $this -> $propiedad = $valor;
+
     }
 }
 
@@ -31,7 +32,6 @@ class Cliente extends Persona {
     private $fechaBaja;
 
     public function __construct(){
-        //parent::__construct($dni, $nombre, $correo, $celular);
         $this -> aTarjetas = array();
         $this -> bActivo = true;
         $this -> fechaAlta = date("Y/m/d");
